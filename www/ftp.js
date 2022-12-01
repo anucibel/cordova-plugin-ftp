@@ -186,6 +186,24 @@ Ftp.prototype.upload = function (localPath, remotePath, successCallback, errorCa
 }
 
 /**
+ * Upload ed Append one local file to the ftp server.
+ *
+ * @param {string} localPath The file (with full path) you want to upload from the local device (e.g. "/path/to/localFile").
+ * @param {string} remotePath The file (with full path) you want to create on the ftp server (e.g. "/path/to/remoteFile").
+ *                            As you see, "localFile" can be renamed to "remoteFile".
+ * @param {function} successCallback The success callback. It will be triggered many times according the file's size.
+ *                                   The arg `0`, `0.11..`, `0.23..` ... `1` means the upload percent. When it reaches `1`, means finished.
+ * @param {function} errorCallback The error callback.
+ */
+Ftp.prototype.uploadAppend = function (localPath, remotePath, successCallback, errorCallback) {
+    console.debug("Ftp: uploadAppend: localPath=" + localPath + ", remotePath=" + remotePath);
+    exec(successCallback,
+        errorCallback,
+        "Ftp",
+        "uploadAppendFile", [removePathProtocolPrefix(localPath), removePathProtocolPrefix(remotePath)]);
+}
+
+/**
  * Download one remote file on the ftp server to local path.
  *
  * @param {string} localPath The file (with full path) you want to create in the local device (e.g. "/path/to/localFile").
