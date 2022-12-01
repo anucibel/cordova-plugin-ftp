@@ -37,11 +37,11 @@
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="Ftp">
-                <param name="android-package" value="io.github.xfally.cordova.plugin.ftp.CDVFtp" />
+                <param name="android-package" value="io.github.anucibel.cordova.plugin.ftp.CDVFtp" />
             </feature>
         </config-file>
 
-        <source-file src="src/android/CDVFtp.java" target-dir="src/io/github/xfally/cordova/plugin/ftp" />
+        <source-file src="src/android/CDVFtp.java" target-dir="src/io/github/anucibel/cordova/plugin/ftp" />
 
         <lib-file src="src/android/libs/ftp4j-1.7.2.jar" />
     </platform>
