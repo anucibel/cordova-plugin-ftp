@@ -21,7 +21,7 @@ You can do the following things:
 ## Installation
 
 ```sh
-$ cordova plugin add cordova-plugin-ftp
+$ cordova plugin add https://github.com/anucibel/cordova-plugin-ftp.git
 $ cordova prepare
 ```
 
