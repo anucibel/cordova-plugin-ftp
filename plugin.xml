@@ -27,7 +27,7 @@
     <description>Cordova Ftp Plugin</description>
     <license>Apache 2.0</license>
     <keywords>cordova,plugin,ftp,cordova-android,cordova-ios</keywords>
-    <repo>https://github.com/xfally/cordova-plugin-ftp.git</repo>
+    <repo>https://github.com/anucibel/cordova-plugin-ftp.git</repo>
 
     <js-module src="www/ftp.js" name="ftp">
         <clobbers target="cordova.plugin.ftp" />
