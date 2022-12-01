@@ -108,6 +108,17 @@ public class CDVFtp extends CordovaPlugin {
                         }
                     });
                     break;
+                case "uploadAppendFile":
+                    cordova.getThreadPool().execute(() -> {
+                        Log.d(TAG, "execute: Created new thread to execute uploadAppendFile...");
+                        try {
+                            callbackContext.success(uploadFile(args.getString(0), args.getString(1), callbackContext));
+                        } catch (Exception e) {
+                            Log.e(TAG, "execute: upload error=" + e.toString());
+                            callbackContext.error(e.toString());
+                        }
+                    });
+                    break;
                 case "downloadFile":
                     cordova.getThreadPool().execute(() -> {
                         Log.d(TAG, "execute: Created new thread to execute downloadFile...");
@@ -306,6 +317,28 @@ public class CDVFtp extends CordovaPlugin {
             // refer to CDVFtpTransferListener for transfer percent and completed
             client.upload(remoteFileName, in, 0, 0, new CDVFtpTransferListener(size, callbackContext));
             Log.i(TAG, "uploadFile: Succeed to upload local file: " + localPath + ", to remote: " + remotePath);
+            return OK;
+        }
+    }
+
+    private String uploadAppendFile(String localPath, String remotePath, CallbackContext callbackContext)
+        throws FTPException, IOException, FTPIllegalReplyException, FTPDataTransferException, FTPAbortedException {
+        Log.d(TAG, "uploadAppendFile: localPath=" + localPath + ", remotePath=" + remotePath);
+        if (localPath == null || localPath.length() == 0) {
+            throw new CDVFtpException(ERROR_NO_ARG_LOCALPATH);
+        }
+        if (remotePath == null || remotePath.length() == 0) {
+            throw new CDVFtpException(ERROR_NO_ARG_REMOTEPATH);
+        }
+        String remoteParentPath = remotePath.substring(0, remotePath.lastIndexOf(FILE_SEPARATOR) + 1);
+        String remoteFileName = remotePath.substring(remotePath.lastIndexOf(FILE_SEPARATOR) + 1);
+        client.changeDirectory(remoteParentPath);
+        File file = new File(localPath);
+        try (InputStream in = new FileInputStream(file)) {
+            long size = file.length();
+            // refer to CDVFtpTransferListener for transfer percent and completed
+            client.append(remoteFileName, in, 0, 0, new CDVFtpTransferListener(size, callbackContext));
+            Log.i(TAG, "uploadAppendFile: Succeed to uploadAppend local file: " + localPath + ", to remote: " + remotePath);
             return OK;
         }
     }
